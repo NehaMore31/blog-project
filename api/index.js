@@ -16,4 +16,17 @@ app.listen(3000,()=>{
     console.log('server is runnig on port 3000');
 });
 app.use('/api/user',router);
-app.use('/api/auth',authRoutes)
+app.use('/api/auth',authRoutes);
+app.use((err, req, res, next) => {
+    const statusCode=err.statusCode||500;
+    const message=err.message ||'internal server error';
+    res.status(
+        statusCode
+    ).json({
+        success:false,
+        statusCode,
+        message
+    });
+    
+
+});
